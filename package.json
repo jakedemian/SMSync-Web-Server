@@ -1,26 +1,31 @@
 {
-	"name" : "sysync-web-server",
-	"version" : "1.0.0",
-	"description" : "",
-	"main" : "server.js",
-	"scripts" : {
-		"start" : "node server.js",
-		"test" : "echo \"Error: no test specified\" && exit 1"
-	},
-	"repository" : {
-		"type" : "git",
-		"url" : "git+https://github.com/jakedemian/SMSync-Web-Server.git"
-	},
-	"keywords" : [
-		"sysync",
-		"web",
-		"server"
-	],
-	"private" : true,
-	"author" : "jake demian",
-	"license" : "ISC",
-	"bugs" : {
-		"url" : "https://github.com/jakedemian/SMSync-Web-Server/issues"
-	},
-	"homepage" : "https://github.com/jakedemian/SMSync-Web-Server#readme"
+  "name": "sysync-web-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakedemian/SMSync-Web-Server.git"
+  },
+  "keywords": [
+    "sysync",
+    "web",
+    "server"
+  ],
+  "private": true,
+  "author": "jake demian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jakedemian/SMSync-Web-Server/issues"
+  },
+  "homepage": "https://github.com/jakedemian/SMSync-Web-Server#readme",
+  "dependencies": {
+    "http": "0.0.0",
+    "querystring": "^0.2.0",
+    "util": "^0.10.3"
+  }
 }
