@@ -1,6 +1,25 @@
 {
-	"scripts": {
-	  "start": "node SMSyncServerSide.js"
-	},
-	"main": "SMSyncServerSide.js"
+  "name": "sysync-web-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "SMSyncServerSide.js",
+  "scripts": {
+    "start": "node SMSyncServerSide.js",
+	"test": "node SMSyncServerSide.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakedemian/SMSync-Web-Server.git"
+  },
+  "keywords": [
+    "sysync",
+    "web",
+    "server"
+  ],
+  "author": "jake demian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jakedemian/SMSync-Web-Server/issues"
+  },
+  "homepage": "https://github.com/jakedemian/SMSync-Web-Server#readme"
 }
