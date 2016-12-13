@@ -2,10 +2,10 @@
   "name": "sysync-web-server",
   "version": "1.0.0",
   "description": "",
-  "main": "SMSyncServerSide.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node SMSyncServerSide.js",
-	"test": "node SMSyncServerSide.js"
+    "start": "node server.js",
+	"test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
