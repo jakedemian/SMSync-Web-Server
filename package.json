@@ -16,6 +16,7 @@
     "web",
     "server"
   ],
+  "private": true,
   "author": "jake demian",
   "license": "ISC",
   "bugs": {
