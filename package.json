@@ -1,0 +1,4 @@
+"scripts": {
+  "start": "node SMSyncServerSide.js"
+},
+"main": "SMSyncServerSide.js"
