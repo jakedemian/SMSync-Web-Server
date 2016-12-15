@@ -1,96 +1,55 @@
-const http = require('http');
-const util = require('util');
-const qs = require('querystring');
+var express = require('express');
+var http = require('http');
+var app = express();
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+const server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+const server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
 const MSG_SOURCE_MOBILE = "mobile";
 const MSG_SOURCE_DESKTOP = "desktop";
 
-/*
-*	logOnServer()
-*/
-function logOnServer(msg){
-	console.log(new Date().toISOString() + "\t\t" + msg);
+const ERR_MISSING_PARAM_TYPE = "Invalid or missing parameter: type";
+
+function getAllConversationDataFromMobileApp(){
+    //TODO make this actually do stuff
+
+    return {"4405919000":{"name":"Alison Delaney","pic":"http://www.facebook.com/somePicOfAlison.jpg","msgs":[{"src":"4408971768","msg":"hi","timestamp":"Dec 15, 2016 @ 10:11:54am"},{"src":"4405919000","msg":"hi","timestamp":"Dec 15, 2016 @ 10:12:11am"},{"src":"4408971768","msg":"what's up this is a really long message because I'm testing what happens when i have an incredibly long message just like this one, which as I said is very very very long.","timestamp":"Dec 15, 2016 @ 10:12:34am"},{"src":"4405919000","msg":"not much, you?","timestamp":"Dec 15, 2016 @ 10:12:57am"},{"src":"4408971768","msg":"same","timestamp":"Dec 15, 2016 @ 10:13:41am"}]}};
 }
 
-/*
-*	respondToClient()
-*/
-function respondToClient(response, code){
-	response.writeHead(code, {'Content-Type': 'text/plain'});
-    response.end();
+function initDesktop(req, res){
+    console.log("Obtaining conversation data from mobile application...");
+    var data = getAllConversationDataFromMobileApp();
+    data = JSON.stringify(data);
+
+    res.status(200).send(data);
 }
 
-/*
-*	handleRequest()
-*/
-function handleRequest(request, response){
-    if(request.method.toUpperCase() == "POST"){
-    	logOnServer("POST request received.");
+// POST request handler
+app.post('/', function (req, res) {
+  // we have a POST request!  we need to figure out what kind of action to take
+  var type = req.body.type;
 
-    	var params = '';
-    	request.on('data', function (data) {
-            params += data;
-
-            if (params.length > 1e6){
-            	params = '';
-            	logOnServer("Destroying connection, parameter data > 1MB...");
-
-            	respondToClient(response, 413);
-                request.connection.destroy();
-            } else {
-            	respondToClient(response, 200);
-            }
-        });
-
-        request.on('end', function () {
-        	if(params != '' && params != null){
-	        	params = qs.parse(params);
-	        	relayMessage(request, params);
-	        }	        
-
-            logOnServer("done.");
-        });
-    } else {
-    	logOnServer("A non-POST request was made to the server.  Declining this request.");
-        respondToClient(response, 405);
-        logOnServer("done.");
+  if(!!type){
+    if(type == "initDesktop"){
+        initDesktop(req, res);
     }
-}
+    else if(type == "relayMsgToDesktop"){
 
-/*
-*	relayMessage()
-*/
-function relayMessage(request, params){
-	if(!params.msg || !params.from || !params.to || !params.src){
-		logOnServer("WARNING: POST request was made with missing required parameters!  No action will be taken.");
-		return;
-	}
+    }
+    else if(type == "relayMsgToMobile"){
 
-	var message = params.msg;
-	var from = params.from;
-	var to = params.to;
-	var src = params.src;
+    }
+    else{
+        res.status(400).send(ERR_MISSING_PARAM_TYPE);
+    }
+  } else {
+    res.status(400).send(ERR_MISSING_PARAM_TYPE);
+  }
+});
 
-	if(src == MSG_SOURCE_MOBILE){
-		// this information needs to be relayed to the desktop application
-		logOnServer("Attempting to relay message to desktop application...");
-		return;
-	}
-	else if(src == MSG_SOURCE_DESKTOP){
-		// this information needs to be relayed to the mobile application
-		logOnServer("Attempting to relay message to mobile application...");
-		return;
-	}
-
-	logOnServer("Unable to relay message...");
-}
-
-// Create server and listen on PORT
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-var server = http.createServer(handleRequest);
-server.listen(server_port, server_ip_address, 511, function () {
-
-    logOnServer( "Listening on " + server_ip_address + ", server_port " + server_port );
-
+app.listen(server_port, function () {
+  console.log('Example app listening on port ' + server_port)
 });
