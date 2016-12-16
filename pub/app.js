@@ -21,6 +21,10 @@ window.app = {
 				app.updateContactList();
 			});
 
+			app.Socket.on('relayMsgToClient', function(data){
+				console.log("received message from phone app!");
+				app.messageReceived(data.msg, data.from);
+			});
 		});
 	},
 
@@ -58,13 +62,14 @@ window.app = {
 			var firstContactInList = $(".contact-list").children().first();
 			if(firstContactInList.length > 0){
 				var number = firstContactInList.data("number");
+				this.currentConversationNumber = number;
 				this.loadConversation(this.conversationData[number].msgs);
 			}
 		}
 	},
 
 	loadConversation : function(messages){
-		$(".conversation-area").remove(".msg");
+		$(".msg").remove();
 
 		for(var i = 0; i < messages.length; i++){
 			var msg = messages[i];
@@ -81,11 +86,40 @@ window.app = {
 		}
 	},
 
+	addMessageToCurrentConversation : function(msg, phoneNumSrc){
+		var timestamp = "fix this later"; // TODO format this timestamp string
+		var myNum = this.myNumber;
+
+		var msgDiv = $("<div>");
+		msgDiv.addClass("msg");
+		myNum == phoneNumSrc ? msgDiv.addClass("msg-me") : msgDiv.addClass("msg-them");
+		msgDiv.html("<span>" + timestamp + "</span>" + "<p>" + msg + "</p>");
+		msgDiv.insertBefore(".input-box");
+	},
+
+	messageReceived(msg, srcNumber){
+		//TODO no matter who it's from, append this new message to the conversationData json
+
+		if(srcNumber = this.currentConversationNumber){
+			// append it to the current convo
+			this.addMessageToCurrentConversation(msg, srcNumber);
+		}
+	},
+
 	sendMessage : function(event, srcEle){
 		if(event.keyCode == 13) { //Enter keycode
 		    var msg = srcEle.value;
-		    this.Socket.emit("sendMessage", msg);
+		    var to = this.currentConversationNumber;
+		    console.log(this.currentConversationNumber);
+		    var data = {
+		    	msg: msg,
+		    	to: to
+		    }
+		    this.Socket.emit("sendMessage", data);
 		    srcEle.value = "";
+
+		    this.addMessageToCurrentConversation(msg, this.myNumber);
+		    // TODO add message to conversationData json
 		}
 	}
 };

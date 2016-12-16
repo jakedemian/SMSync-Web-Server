@@ -16,8 +16,8 @@ function getFullConversationData(){
     return {"4405919000":{"name":"Alison Delaney","pic":"http://www.facebook.com/somePicOfAlison.jpg","msgs":[{"src":"4408971768","msg":"hi","timestamp":"Dec 15, 2016 @ 10:11:54am"},{"src":"4405919000","msg":"hi","timestamp":"Dec 15, 2016 @ 10:12:11am"},{"src":"4408971768","msg":"what's up this is a really long message because I'm testing what happens when i have an incredibly long message just like this one, which as I said is very very very long.","timestamp":"Dec 15, 2016 @ 10:12:34am"},{"src":"4405919000","msg":"not much, you?","timestamp":"Dec 15, 2016 @ 10:12:57am"},{"src":"4408971768","msg":"same","timestamp":"Dec 15, 2016 @ 10:13:41am"}]}};
 }
 
-function sendMessage(msg){
-    console.log("TODO -- actually send the message to the mobile app.");
+function sendMessage(socket, msg){
+    socket.emit("relayMsgToApp", msg);
     console.log("message was:  " + msg);
 }
 
@@ -50,8 +50,18 @@ io.on('connection', function(socket){
         console.log("Received test emit:  " + data);
     });
 
-    socket.on('sendMessage', function(msg){
-        sendMessage(msg);
+    socket.on('sendMessage', function(data){
+        // relay a desktop msg to the phone app
+        socket.broadcast.emit("relayMsgToApp", {"msg":data.msg, "to":data.to});
+    });
+
+    socket.on('msgToClient', function(data){
+        // relay a phone message to the desktop client
+        if(typeof data == "string"){
+            data = JSON.parse(data);
+        }
+
+        socket.broadcast.emit("relayMsgToClient", data);
     });
 });
 
