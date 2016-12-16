@@ -1,0 +1,80 @@
+@import url("normalize.css");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+body, html {
+  height: 100%; }
+
+.main-wrapper {
+  height: 100%;
+  margin: 0px auto;
+  overflow: hidden;
+  display: table;
+  font-family: 'Montserrat', sans-serif; }
+  .main-wrapper .contact-list {
+    float: left;
+    width: 300px;
+    height: 100%;
+    background-color: #eee;
+    background-image: url("45-degree-fabric-light.png");
+    border-right: 2px solid #777;
+    display: table-cell; }
+    .main-wrapper .contact-list .contact-card {
+      height: 100px;
+      width: 100%;
+      border-bottom: 1px solid #777;
+      background-color: #ddd;
+      vertical-align: middle;
+      text-align: center;
+      cursor: pointer; }
+      .main-wrapper .contact-list .contact-card .name {
+        margin: 0;
+        padding-top: 30px;
+        -webkit-user-select: none;
+        /* Chrome/Safari */ }
+      .main-wrapper .contact-list .contact-card:hover {
+        background-color: #aaa; }
+  .main-wrapper .conversation-area {
+    overflow: hidden;
+    height: 100%;
+    background-color: #eee;
+    background-image: url("60-lines.png");
+    display: table-cell;
+    vertical-align: bottom; }
+    .main-wrapper .conversation-area .input-box {
+      display: inline;
+      clear: both;
+      float: left;
+      width: 100%;
+      font-weight: bold; }
+    .main-wrapper .conversation-area .msg {
+      border: 1px solid black;
+      margin: 10px;
+      min-width: 50px;
+      max-width: 45%;
+      text-align: center;
+      padding: 0 7px;
+      border-radius: 10px;
+      box-shadow: 7px 7px 5px #888888;
+      display: inline;
+      clear: both; }
+      .main-wrapper .conversation-area .msg-them {
+        background-color: #ddd;
+        float: left;
+        border-bottom-left-radius: 0px; }
+        .main-wrapper .conversation-area .msg-them:hover span {
+          float: left; }
+      .main-wrapper .conversation-area .msg-me {
+        background-color: #42f456;
+        float: right;
+        border-bottom-right-radius: 0px; }
+        .main-wrapper .conversation-area .msg-me:hover span {
+          float: right; }
+      .main-wrapper .conversation-area .msg span {
+        display: none;
+        margin-top: -20px;
+        font-size: 8px; }
+      .main-wrapper .conversation-area .msg:hover span {
+        display: block;
+        position: absolute;
+        color: #888; }
+
+/*# sourceMappingURL=main.css.map */

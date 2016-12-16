@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <!-- A bit odd looking, but wrapping js imports in this module code fixes some problems involving Electron and JS libraries -->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="./jquery-3.1.1.min.js"></script>
+    <script src="./socket.io/socket.io.js"></script>
+    <script src="./app.js"></script>
+    <script>if (window.module) module = window.module;</script>
+
+  </head>
+  <body>
+    <!-- templates -->
+    <div id="contact-card-template" style="display: none;">
+      <h1 class="name"></h1>
+    </div>
+
+    <div class="main-wrapper">
+
+      <div class="contact-list">
+      </div>
+
+      <div class="conversation-area">
+      	<input class="input-box" placeholder="Enter a message..." onkeypress="app.sendMessage(event, this);" />
+      </div>
+
+    </div>
+  </body>
+</html>

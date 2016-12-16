@@ -1,0 +1,109 @@
+@import url("normalize.css");
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+//variables
+$contactListBackgroundImage: url("45-degree-fabric-light.png");
+$convoAreaBackgroundImage: url("60-lines.png");
+$baseBackgroundColor: #eee;
+
+body, html {
+	height: 100%;
+}
+
+.main-wrapper {
+	height: 100%;
+	margin: 0px auto;
+	overflow: hidden;
+	display: table;
+	font-family: 'Montserrat', sans-serif;
+
+	.contact-list{
+		float: left;
+		width: 300px;
+		height: 100%;
+		background-color: $baseBackgroundColor;
+		background-image: $contactListBackgroundImage;
+		border-right: 2px solid #777;
+		display: table-cell;
+
+		.contact-card{
+			height: 100px;
+			width: 100%;
+			border-bottom: 1px solid #777;
+			background-color: #ddd;			
+			vertical-align: middle;
+			text-align: center;
+			cursor: pointer;
+
+			.name{
+				margin: 0;
+				padding-top: 30px;
+				-webkit-user-select: none; /* Chrome/Safari */
+			}
+
+			&:hover{
+				background-color: #aaa;
+			}
+		}
+	}
+
+	.conversation-area{
+		overflow: hidden;
+		height: 100%;
+		background-color: $baseBackgroundColor;
+		background-image: $convoAreaBackgroundImage;
+		display: table-cell;
+  		vertical-align: bottom;
+
+  		.input-box{
+  			display: inline;
+  			clear: both;
+  			float: left;
+  			width: 100%;
+  			font-weight: bold;
+  		}
+
+		.msg{
+			border: 1px solid black;
+			margin: 10px;
+			min-width: 50px;
+			max-width: 45%;
+			text-align: center;
+			padding: 0 7px;
+			border-radius: 10px;
+			box-shadow: 7px 7px 5px #888888;
+			display: inline;
+			clear: both;
+
+			&-them{
+				background-color: #ddd;
+				float: left;				
+				border-bottom-left-radius: 0px;
+				&:hover span{
+					float: left;
+				}
+			}
+
+			&-me{
+				background-color: #42f456;
+				float: right;
+				border-bottom-right-radius: 0px;
+				&:hover span{
+					float: right;
+				}
+			}
+
+			span{
+				display: none;
+			    margin-top: -20px;
+			    font-size: 8px;
+			}
+
+			&:hover span {
+			    display:block;
+			    position:absolute;
+			    color:#888;
+			}
+		}
+	}
+}
