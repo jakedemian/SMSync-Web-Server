@@ -5,6 +5,7 @@ body, html {
 
 .main-wrapper {
   height: 100%;
+  width: 100%;
   margin: 0px auto;
   overflow: hidden;
   display: table;
@@ -16,7 +17,8 @@ body, html {
     background-color: #eee;
     background-image: url("45-degree-fabric-light.png");
     border-right: 2px solid #777;
-    display: table-cell; }
+    display: table-cell;
+    overflow-y: scroll; }
     .main-wrapper .contact-list .contact-card {
       height: 100px;
       width: 100%;
@@ -33,8 +35,10 @@ body, html {
       .main-wrapper .contact-list .contact-card:hover {
         background-color: #aaa; }
   .main-wrapper .conversation-area {
-    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
     height: 100%;
+    width: 100%;
     background-color: #eee;
     background-image: url("60-lines.png");
     display: table-cell;

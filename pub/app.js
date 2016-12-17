@@ -9,13 +9,13 @@ window.app = {
 	establishSocketIoConnection : function(){
 		this.Socket = io(); // connect to socket
 		this.Socket.on('connect', function(socket){
-			console.log("Connected to server via Socket.io!");
+			console.log("Connected to server via Socket.io!  Requesting conversation data..");
 			app.Socket.emit('refreshConvoData');
 
 			// IMPORTANT
 			// All Socket.on's must go inside this Socket.on("connect") block!!!
 			app.Socket.on('convoData', function(convoData){
-				console.log("received conversation data from server...");
+				console.log("Received conversation data from server...");
 
 				app.conversationData = convoData;
 				app.updateContactList();
@@ -34,8 +34,8 @@ window.app = {
 		for(var i = 0; i < phoneNumbers.length; i++){
 			var phoneNumber = phoneNumbers[i];
 			var thisConvoData = this.conversationData[phoneNumber];
-			var contactName = thisConvoData.name;
-			var pic = thisConvoData.pic;
+			var contactName = thisConvoData.name || phoneNumber;
+			var pic = thisConvoData.pic || "";
 
 			var contactCard = contactCardTemplate.clone();
 			contactCard[0].id = ""; // removed template id
@@ -45,8 +45,9 @@ window.app = {
 			contactCard.click(function(){
 				if(this.currentConversationNumber != phoneNumber){
 					// since this is an onclick event, I need to reference my globals as app.x, not this.x
-					app.currentConversationNumber = phoneNumber;
-					app.loadConversation(app.conversationData[phoneNumber].msgs);
+					var phoneNum = $(this).data("number");
+					app.currentConversationNumber = phoneNum;
+					app.loadConversation(app.conversationData[phoneNum].msgs);
 				}
 			});
 			
@@ -83,6 +84,8 @@ window.app = {
 			myNum == msg.src ? msgDiv.addClass("msg-me") : msgDiv.addClass("msg-them");
 			msgDiv.html("<span>" + timestamp + "</span>" + "<p>" + msg.msg + "</p>");
 			msgDiv.insertBefore(".input-box");
+
+			$('body').scrollTop($('.conversation-area')[0].scrollHeight);
 		}
 	},
 

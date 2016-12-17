@@ -11,11 +11,6 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 const server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 const server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
-function getFullConversationData(){
-    // TODO make this ACTUALLY get this data from my mobile app.  for now just return the mock data
-    return {"4405919000":{"name":"Alison Delaney","pic":"http://www.facebook.com/somePicOfAlison.jpg","msgs":[{"src":"4408971768","msg":"hi","timestamp":"Dec 15, 2016 @ 10:11:54am"},{"src":"4405919000","msg":"hi","timestamp":"Dec 15, 2016 @ 10:12:11am"},{"src":"4408971768","msg":"what's up this is a really long message because I'm testing what happens when i have an incredibly long message just like this one, which as I said is very very very long.","timestamp":"Dec 15, 2016 @ 10:12:34am"},{"src":"4405919000","msg":"not much, you?","timestamp":"Dec 15, 2016 @ 10:12:57am"},{"src":"4408971768","msg":"same","timestamp":"Dec 15, 2016 @ 10:13:41am"}]}};
-}
-
 function sendMessage(socket, msg){
     socket.emit("relayMsgToApp", msg);
     console.log("message was:  " + msg);
@@ -41,9 +36,22 @@ io.on('connection', function(socket){
     // TODO customize this to respond with real data on who has connected with the server
     console.log("connected to client!");
 
+    // app requests convo data
     socket.on('refreshConvoData', function(){
         console.log("Received 'refreshConvoData' request...");
-        socket.emit('convoData', getFullConversationData());
+
+        // request convo data from mobile app
+        socket.broadcast.emit("requestAllConversations");
+    });
+
+    // mobile app has responded with data!
+    socket.on("requestAllConversations_Response", function(data){
+        if(typeof data == "string"){
+            data = JSON.parse(data);
+        }
+        
+        // relay it to the desktop app
+        socket.broadcast.emit("convoData", data);
     });
 
     socket.on('test', function(data){

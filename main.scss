@@ -12,6 +12,7 @@ body, html {
 
 .main-wrapper {
 	height: 100%;
+	width: 100%;
 	margin: 0px auto;
 	overflow: hidden;
 	display: table;
@@ -25,6 +26,7 @@ body, html {
 		background-image: $contactListBackgroundImage;
 		border-right: 2px solid #777;
 		display: table-cell;
+		overflow-y: scroll;
 
 		.contact-card{
 			height: 100px;
@@ -48,8 +50,10 @@ body, html {
 	}
 
 	.conversation-area{
-		overflow: hidden;
+		overflow-y: scroll;
+		overflow-x: hidden;
 		height: 100%;
+		width: 100%;
 		background-color: $baseBackgroundColor;
 		background-image: $convoAreaBackgroundImage;
 		display: table-cell;
