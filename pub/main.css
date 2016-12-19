@@ -8,7 +8,6 @@ body, html {
   width: 100%;
   margin: 0px auto;
   overflow: hidden;
-  display: table;
   font-family: 'Montserrat', sans-serif; }
   .main-wrapper .contact-list {
     float: left;
@@ -17,7 +16,6 @@ body, html {
     background-color: #eee;
     background-image: url("45-degree-fabric-light.png");
     border-right: 2px solid #777;
-    display: table-cell;
     overflow-y: scroll; }
     .main-wrapper .contact-list .contact-card {
       height: 100px;
@@ -38,10 +36,8 @@ body, html {
     overflow-y: scroll;
     overflow-x: hidden;
     height: 100%;
-    width: 100%;
     background-color: #eee;
     background-image: url("60-lines.png");
-    display: table-cell;
     vertical-align: bottom; }
     .main-wrapper .conversation-area .input-box {
       display: inline;
